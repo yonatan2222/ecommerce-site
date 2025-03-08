@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חנות מקוונת</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: #ec008c;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background: #00b0eb;
+            padding: 10px;
+        }
+        nav a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+        }
+        .container {
+            padding: 20px;
+        }
+        .category {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .category-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+            background-color: white;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .category-item:hover {
+            background-color: #ec008c;
+            color: white;
+            cursor: pointer;
+        }
+        .cart {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        button {
+            background-color: #ec008c;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #00b0eb;
+        }
+    </style>
+</head>
+<body>
+    <header>חנות מקוונת</header>
+    <nav>
+        <a href="#">בית</a>
+        <a href="#categories">קטגוריות</a>
+        <a href="#cart">עגלת קניות</a>
+    </nav>
+    
+    <div class="container">
+        <h2 id="categories">קטגוריות מוצרים</h2>
+        <div class="category">
+            <div class="category-item" onclick="showProducts('סמארטפונים')">📱 סמארטפונים</div>
+            <div class="category-item" onclick="showProducts('רמקולים')">🔊 רמקולים</div>
+            <div class="category-item" onclick="showProducts('שואבי אבק')">🧹 שואבי אבק</div>
+        </div>
+        
+        <h2>מוצרים</h2>
+        <div id="products"></div>
+        
+        <h2 id="cart">עגלת קניות</h2>
+        <div class="cart" id="cart-content">עגלת הקניות שלך ריקה</div>
+    </div>
+    
+    <script>
+        const products = {
+            "סמארטפונים": [
+                { name: "Samsung Galaxy S24", price: 3500 },
+                { name: "Google Pixel 8", price: 3200 }
+            ],
+            "רמקולים": [
+                { name: "JBL Flip 6", price: 450 },
+                { name: "Sonos One", price: 900 }
+            ],
+            "שואבי אבק": [
+                { name: "Dyson V15", price: 2000 },
+                { name: "Xiaomi Mi Vacuum", price: 1200 }
+            ]
+        };
+        
+        function showProducts(category) {
+            const productDiv = document.getElementById("products");
+            productDiv.innerHTML = "";
+            
+            products[category].forEach(product => {
+                let productElement = document.createElement("div");
+                productElement.classList.add("category-item");
+                productElement.innerHTML = `${product.name} - ₪${product.price} <br><button onclick="addToCart('${product.name}', ${product.price})">הוסף לסל</button>`;
+                productDiv.appendChild(productElement);
+            });
+        }
+        
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+        
+        function updateCart() {
+            const cartDiv = document.getElementById("cart-content");
+            if (cart.length === 0) {
+                cartDiv.innerHTML = "עגלת הקניות שלך ריקה";
+                return;
+            }
+            cartDiv.innerHTML = cart.map(item => `${item.name} - ₪${item.price}`).join("<br>");
+        }
+    </script>
+</body>
+</html>
